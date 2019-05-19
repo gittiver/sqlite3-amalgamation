@@ -1,5 +1,7 @@
 project(sqlite3)
 
+enable_language(C)
+
 include(ExternalProject)
 
 ExternalProject_Add(sqlite3-src
@@ -27,9 +29,12 @@ add_custom_command(
 ) 
 
 add_library(sqlite3 STATIC ${SQLITE3_SOURCES})
+export(TARGETS sqlite3 FILE sqlite3.cmake)
+
 add_library(sqlite3-shared SHARED ${SQLITE3_SOURCES})
 set_target_properties(sqlite3-shared
         PROPERTIES OUTPUT_NAME sqlite3)
+export(TARGETS sqlite3-shared FILE sqlite3-shared.cmake)
 
 if(SQLITE3_WITH_SHELL)
   add_executable(sqlite3-bin ${SQLITE3_SHELL_SOURCES})
