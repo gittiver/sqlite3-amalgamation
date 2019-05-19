@@ -54,4 +54,4 @@ install(TARGETS sqlite3
         )
 export(TARGETS sqlite3 FILE sqlite3.cmake)
 export(TARGETS sqlite3-shared FILE sqlite3-shared.cmake)
-
+export(PACKAGE sqlite3)
