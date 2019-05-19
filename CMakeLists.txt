@@ -4,6 +4,10 @@ enable_language(C)
 
 include(ExternalProject)
 
+option(SQLITE3_WITH_SHELL "build sqlite3 executable" OFF)
+option(SQLITE3_STATIC_LIB "build sqlite3 static library" ON)
+option(SQLITE3_SHARED_LIB "build sqlite3 shared library" OFF)
+
 ExternalProject_Add(sqlite3-src
        URL https://sqlite.org/2019/sqlite-amalgamation-3280000.zip
        PREFIX 3rdparty
@@ -29,12 +33,10 @@ add_custom_command(
 ) 
 
 add_library(sqlite3 STATIC ${SQLITE3_SOURCES})
-export(TARGETS sqlite3 FILE sqlite3.cmake)
 
 add_library(sqlite3-shared SHARED ${SQLITE3_SOURCES})
 set_target_properties(sqlite3-shared
         PROPERTIES OUTPUT_NAME sqlite3)
-export(TARGETS sqlite3-shared FILE sqlite3-shared.cmake)
 
 if(SQLITE3_WITH_SHELL)
   add_executable(sqlite3-bin ${SQLITE3_SHELL_SOURCES})
@@ -42,9 +44,14 @@ if(SQLITE3_WITH_SHELL)
   set_target_properties(sqlite3-bin
         PROPERTIES OUTPUT_NAME sqlite3)
 endif(SQLITE3_WITH_SHELL)
-
-option(SQLITE3_WITH_SHELL "build sqlite3 executable" OFF)
-option(SQLITE3_STATIC_LIB "build sqlite3 static library" ON)
-option(SQLITE3_SHARED_LIB "build sqlite3 shared library" OFF)
      
+install(TARGETS sqlite3
+        EXPORT sqlite3
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib
+        RUNTIME DESTINATION bin
+        INCLUDES DESTINATION include
+        )
+export(TARGETS sqlite3 FILE sqlite3.cmake)
+export(TARGETS sqlite3-shared FILE sqlite3-shared.cmake)
 
