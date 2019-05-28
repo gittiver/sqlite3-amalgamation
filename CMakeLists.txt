@@ -7,7 +7,25 @@ include(ExternalProject)
 option(SQLITE3_WITH_SHELL "build sqlite3 executable" OFF)
 option(SQLITE3_STATIC_LIB "build sqlite3 static library" ON)
 option(SQLITE3_SHARED_LIB "build sqlite3 shared library" OFF)
+option(SQLITE3_USE_SHARED_CRT "use shared crt library" OFF)
 
+if (MSVC)
+if (SQLITE3_USE_SHARED_CRT)
+       foreach(flag_var
+                CMAKE_CXX_FLAGS_DEBUG
+                CMAKE_CXX_FLAGS_RELEASE
+                CMAKE_CXX_FLAGS_MINSIZEREL
+                CMAKE_CXX_FLAGS_RELWITHDEBINFO
+                CMAKE_C_FLAGS_DEBUG
+                CMAKE_C_FLAGS_RELEASE
+                CMAKE_C_FLAGS_MINSIZEREL
+                CMAKE_C_FLAGS_RELWITHDEBINFO
+                )
+            string(REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
+        endforeach()
+#else(SQLITE3_USE_SHARED_CRT)
+endif(SQLITE3_USE_SHARED_CRT)
+endif(MSVC)
 ExternalProject_Add(sqlite3-src
        URL https://sqlite.org/2019/sqlite-amalgamation-3280000.zip
        PREFIX 3rdparty
