@@ -26,8 +26,10 @@ if (NOT SQLITE3_USE_SHARED_CRT)
 #else(SQLITE3_USE_SHARED_CRT)
 endif(NOT SQLITE3_USE_SHARED_CRT)
 endif(MSVC)
+
 ExternalProject_Add(sqlite3-src
-       URL https://sqlite.org/2019/sqlite-amalgamation-3280000.zip
+       URL https://sqlite.org/2019/sqlite-amalgamation-3290000.zip
+	   URL_HASH SHA1=a0eba79e5d1627946aead47e100a8a6f9f6fafff
        PREFIX 3rdparty
 
        CONFIGURE_COMMAND ""
