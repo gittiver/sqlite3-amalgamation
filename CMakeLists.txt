@@ -28,8 +28,8 @@ endif(NOT SQLITE3_USE_SHARED_CRT)
 endif(MSVC)
 
 ExternalProject_Add(sqlite3-src
-       URL https://sqlite.org/2020/sqlite-amalgamation-3320000.zip
-       URL_HASH SHA1=b55939b50d277aa1146f91a76bf9de200942f5d3
+       URL https://sqlite.org/2020/sqlite-amalgamation-3320300.zip
+       URL_HASH SHA3_256=d3a74232105b13fff9ff2daac45c13a4650da3326f29d19ae20190f4c0d36038
        PREFIX 3rdparty
 
        CONFIGURE_COMMAND ""
