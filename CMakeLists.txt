@@ -1,3 +1,5 @@
+cmake_minimum_required(VERSION 3.11)
+
 project(sqlite3)
 
 enable_language(C)
@@ -31,20 +33,21 @@ ExternalProject_Add(sqlite3-src
        URL https://www.sqlite.org/2020/sqlite-amalgamation-3330000.zip
        URL_HASH SHA3_256=fb7dfd39009fb40519097b0b1a6af5e8acb17006c848f6d6b7707a4a0c3885c3
        PREFIX 3rdparty
-
+       SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/sqlite3
+       
        CONFIGURE_COMMAND ""
        BUILD_COMMAND ""
        INSTALL_COMMAND ""
 )
 
 set(SQLITE3_SOURCES
-  ${CMAKE_CURRENT_BINARY_DIR}/3rdparty/src/sqlite3-src/sqlite3.c
-  ${CMAKE_CURRENT_BINARY_DIR}/3rdparty/src/sqlite3-src/sqlite3.h
-  ${CMAKE_CURRENT_BINARY_DIR}/3rdparty/src/sqlite3-src/sqlite3ext.h
-  )
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/sqlite3/sqlite3.c
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/sqlite3/sqlite3.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/sqlite3/sqlite3ext.h
+)
 
 set(SQLITE3_SHELL_SOURCES
-  ${CMAKE_CURRENT_BINARY_DIR}/3rdparty/src/sqlite3-src/shell.c
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/sqlite3/shell.c
   )
 
 add_custom_command(
@@ -53,10 +56,12 @@ add_custom_command(
 ) 
 
 add_library(sqlite3 STATIC ${SQLITE3_SOURCES})
+target_include_directories(sqlite3 INTERFACE  ${CMAKE_CURRENT_SOURCE_DIR}/src/sqlite3)
 
 add_library(sqlite3-shared SHARED ${SQLITE3_SOURCES})
 set_target_properties(sqlite3-shared
-        PROPERTIES OUTPUT_NAME sqlite3)
+  PROPERTIES OUTPUT_NAME sqlite3)
+target_include_directories(sqlite3-shared INTERFACE  ${CMAKE_CURRENT_SOURCE_DIR}/src/sqlite3)
 
 if(SQLITE3_WITH_SHELL)
   add_executable(sqlite3-bin ${SQLITE3_SHELL_SOURCES})
