@@ -14,6 +14,7 @@ option(SQLITE3_WITH_SHELL "build sqlite3 executable" OFF)
 option(SQLITE3_STATIC_LIB "build sqlite3 static library" ON)
 option(SQLITE3_SHARED_LIB "build sqlite3 shared library" OFF)
 option(SQLITE3_USE_SHARED_CRT "use shared crt library" ON)
+option(SQLITE3_ENABLE_MATH_FUNCTIONS "enable SQL math functions" ON)
 
 if (MSVC)
 if (NOT SQLITE3_USE_SHARED_CRT)
@@ -34,8 +35,8 @@ endif(NOT SQLITE3_USE_SHARED_CRT)
 endif(MSVC)
 
 ExternalProject_Add(sqlite3-src
-       URL https://www.sqlite.org/2021/sqlite-amalgamation-3350000.zip
-       URL_HASH SHA3_256=3ba0502aec018125480535159c5a9c3a7f636bd088d918cdce6ba3b2d468342a 
+       URL https://www.sqlite.org/2021/sqlite-amalgamation-3350400.zip
+       URL_HASH SHA3_256=8c91c8f6a893a208059ede1803a0ace6da3c7faeaf72395a28458c0256059f0f 
        PREFIX 3rdparty
        SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/sqlite3
        
@@ -61,8 +62,15 @@ add_custom_command(
 
 add_library(sqlite3 STATIC ${SQLITE3_SOURCES})
 target_include_directories(sqlite3 INTERFACE  ${CMAKE_CURRENT_SOURCE_DIR}/src/sqlite3)
+if (SQLITE3_ENABLE_MATH_FUNCTIONS)
+  target_compile_definitions(sqlite3 PUBLIC SQLITE_ENABLE_MATH_FUNCTIONS)
+endif (SQLITE3_ENABLE_MATH_FUNCTIONS)
 
 add_library(sqlite3-shared SHARED ${SQLITE3_SOURCES})
+if (SQLITE3_ENABLE_MATH_FUNCTIONS)
+  target_compile_definitions(sqlite3-shared PUBLIC SQLITE_ENABLE_MATH_FUNCTIONS)
+endif (SQLITE3_ENABLE_MATH_FUNCTIONS)
+
 set_target_properties(sqlite3-shared
   PROPERTIES OUTPUT_NAME sqlite3)
 target_include_directories(sqlite3-shared INTERFACE  ${CMAKE_CURRENT_SOURCE_DIR}/src/sqlite3)
