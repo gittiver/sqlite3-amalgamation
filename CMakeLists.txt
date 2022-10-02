@@ -4,7 +4,7 @@ if(POLICY CMP0077)
     cmake_policy(SET CMP0077 NEW)
 endif()
 
-project(sqlite3 VERSION 3.38.2)
+project(sqlite3 VERSION 3.39.4)
 
 enable_language(C)
 
@@ -35,8 +35,8 @@ endif(NOT SQLITE3_USE_SHARED_CRT)
 endif(MSVC)
 
 ExternalProject_Add(sqlite3-src
-       URL https://sqlite.org/2022/sqlite-amalgamation-3390000.zip
-       URL_HASH SHA3_256=97ab76a9e462b023ff9fef12e6309ae8a20ccf7f6e29d3d5d62a932c92c69fc7
+       URL https://sqlite.org/2022/sqlite-amalgamation-3390400.zip
+       URL_HASH SHA3_256=96894cf2c57f76ccbeda41aa6ff0ce1f6b093deced8335801d38ddb34ec9690e
        PREFIX 3rdparty
        SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/sqlite3
        
