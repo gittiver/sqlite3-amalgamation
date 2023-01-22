@@ -66,6 +66,7 @@ add_custom_command(
 
 add_library(sqlite3 STATIC ${SQLITE3_SOURCES})
 target_include_directories(sqlite3 INTERFACE  ${CMAKE_CURRENT_SOURCE_DIR}/src/sqlite3)
+set_property(TARGET sqlite3 PROPERTY POSITION_INDEPENDENT_CODE ON)
 if (SQLITE3_ENABLE_MATH_FUNCTIONS)
   target_compile_definitions(sqlite3 PUBLIC SQLITE_ENABLE_MATH_FUNCTIONS)
 endif (SQLITE3_ENABLE_MATH_FUNCTIONS)
