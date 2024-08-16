@@ -1,2 +1,6 @@
 # sqlite3-amalgamation
-contains sqlite3 sources and make file to build library and other sqlite3 components (sqlite3-shell...)
+this repository contains a cmake based build of sqlite (and its tools) based on source download from sqlite.org
+
+## TODO
+- [ ] integrate build of sqldiff
+- [ ] make cleaner build by splitting static and dynamic library build into separate builds (based on ideas of alex reinking)
