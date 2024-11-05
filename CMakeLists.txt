@@ -15,8 +15,7 @@ enable_language(C)
 include(ExternalProject)
 
 option(SQLITE3_WITH_SHELL "build sqlite3 executable" OFF)
-option(SQLITE3_STATIC_LIB "build sqlite3 static library" ON)
-option(SQLITE3_SHARED_LIB "build sqlite3 shared library" OFF)
+option(BUILD_SHARED_LIBS "build sqlite3 shared or static library" OFF)
 option(SQLITE3_USE_SHARED_CRT "use shared crt library" ON)
 option(SQLITE3_ENABLE_MATH_FUNCTIONS "enable SQL math functions" ON)
 
@@ -64,21 +63,12 @@ add_custom_command(
   DEPENDS sqlite3-src
 ) 
 
-add_library(sqlite3 STATIC ${SQLITE3_SOURCES})
+add_library(sqlite3 ${SQLITE3_SOURCES})
 target_include_directories(sqlite3 INTERFACE  ${CMAKE_CURRENT_SOURCE_DIR}/src/sqlite3)
 set_property(TARGET sqlite3 PROPERTY POSITION_INDEPENDENT_CODE ON)
 if (SQLITE3_ENABLE_MATH_FUNCTIONS)
   target_compile_definitions(sqlite3 PUBLIC SQLITE_ENABLE_MATH_FUNCTIONS)
 endif (SQLITE3_ENABLE_MATH_FUNCTIONS)
-
-add_library(sqlite3-shared SHARED ${SQLITE3_SOURCES})
-if (SQLITE3_ENABLE_MATH_FUNCTIONS)
-  target_compile_definitions(sqlite3-shared PUBLIC SQLITE_ENABLE_MATH_FUNCTIONS)
-endif (SQLITE3_ENABLE_MATH_FUNCTIONS)
-
-set_target_properties(sqlite3-shared
-  PROPERTIES OUTPUT_NAME sqlite3)
-target_include_directories(sqlite3-shared INTERFACE  ${CMAKE_CURRENT_SOURCE_DIR}/src/sqlite3)
 
 if(SQLITE3_WITH_SHELL)
   add_executable(sqlite3-bin ${SQLITE3_SHELL_SOURCES})
@@ -95,5 +85,4 @@ install(TARGETS sqlite3
         INCLUDES DESTINATION include
         )
 export(TARGETS sqlite3 FILE sqlite3.cmake)
-export(TARGETS sqlite3-shared FILE sqlite3-shared.cmake)
 export(PACKAGE sqlite3)
