@@ -38,8 +38,8 @@ endif(NOT SQLITE3_USE_SHARED_CRT)
 endif(MSVC)
 
 ExternalProject_Add(sqlite3-src
-       URL https://www.sqlite.org//2026/sqlite-amalgamation-3510200.zip
-       URL_HASH SHA3_256=9a9dd4eef7a97809bfacd84a7db5080a5c0eff7aaf1fc1aca20a6dc9a0c26f96
+       URL https://www.sqlite.org//2026/sqlite-amalgamation-3510300.zip
+       URL_HASH SHA3_256=ced02ff9738970f338c9c8e269897b554bcda73f6cf1029d49459e1324dbeaea
        PREFIX 3rdparty
        SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/sqlite3
        
