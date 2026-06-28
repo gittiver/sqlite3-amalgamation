@@ -8,7 +8,7 @@ if(POLICY CMP0135)
     cmake_policy(SET CMP0135 NEW)
 endif()
 
-project(sqlite3 VERSION 3.51.2)
+project(sqlite3 VERSION 3.53.3)
 
 enable_language(C)
 
